@@ -12,7 +12,7 @@ void initializeList(List* list) {
     list->size = 0;
 }
 
-void insertBeginning(List *list, int val) {
+void insertBeginning(List *list, int val) { //Insert int val at the start of the array
     if(list->size >= MAX) {
         printf("List is at maximum capacity\n");
         return;
@@ -24,7 +24,7 @@ void insertBeginning(List *list, int val) {
     list->size++;
 }
 
-void insertEnd(List *list, int val) {
+void insertEnd(List *list, int val) { //Insert int val at the end of the array
     if(list->size >= MAX) {
         printf("List is at maximum capacity\n");
         return;
@@ -33,9 +33,12 @@ void insertEnd(List *list, int val) {
     list->data[list->size++] = val;
 }
 
-void insertAtIndex(List *list, int val, int idx) {
+void insertAtIndex(List *list, int val, int idx) { //Inserting int val inside array at specific position idx
     if(list->size >= MAX) {
         printf("List is at maximum capacity\n");
+        return;
+    } else if (idx < 0 || idx > list->size) {
+        printf("Index is out of bounds\n");
         return;
     }
 
@@ -45,14 +48,14 @@ void insertAtIndex(List *list, int val, int idx) {
     list->size++;
 }
 
-void insertSorted(List *list, int val) {
+void insertSorted(List *list, int val) { //Insert int val inside array while keeping array sorted
     if(list->size >= MAX) {
         printf("List is at maximum capacity\n");
         return;
     }
 
     int idx;
-    for(idx = 0; idx < list->size && val < list->data[idx]; idx++) {}
+    for(idx = 0; idx < list->size && val > list->data[idx]; idx++) {}
 
     for(int i = list->size; i > idx; i--) list->data[i] = list->data[i - 1];
 
@@ -60,8 +63,21 @@ void insertSorted(List *list, int val) {
     list->size++;
 }
 
+void display(List *list) {
+    for (int i = 0; i < list->size; i++) {
+        printf("%d ", list->data[i]);
+    }
+    printf("\n");
+}
+
 int main() {
     List myList;
-
     initializeList(&myList);
+
+    insertEnd(&myList, 30);
+    insertBeginning(&myList, 10);
+    insertAtIndex(&myList, 20, 1);
+    insertSorted(&myList, 25);
+
+    display(&myList);  // Expected: 10 20 25 30
 }
