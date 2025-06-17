@@ -4,60 +4,59 @@
 typedef struct node {
     int data;
     struct node *next;
-} node;
+} *STACK, node;
 
-int isEmpty(node *top) {
+int isEmpty(STACK top) {
     return top == NULL;
 }
 
-void push(node **top, int newData) {
-    node *newNode = malloc(sizeof(node));
-    if(!newNode) exit(0);
+void push(STACK *top, int newData) {
+    STACK newNode = malloc(sizeof(node));
+    if (!newNode) exit(0);
 
     newNode->data = newData;
     newNode->next = *top;
     *top = newNode;
 
-    printf("%d pushed to the top of the list\n", newData);
+    printf("%d pushed to the top of the stack\n\n", newData);
 }
 
-void pop(node **top) {
-    if(isEmpty(*top)) {
-        printf("The stack is empty\n");
+void pop(STACK *top) {
+    if(isEmpty(top)) {
+        printf("Stack is empty\n");
         return;
     }
 
-    node *temp = *top;
+    STACK temp = *top;
     *top = temp->next;
     free(temp);
 
-    printf("The top of the stack is popped\n");
+    printf("Popped the element at the top of the list\n\n");
 }
 
-void top(node *top) {
+void top(STACK top) {
     if(isEmpty(top)) {
         printf("Stack is empty\n");
         return;
     }
 
-    printf("The top of the stack is %d\n", top->data);
+    printf("%d is the element at the top of the stack\n\n", top->data);
 }
 
-void display(node *top) {
+void printStack(STACK top) {
     if(isEmpty(top)) {
         printf("Stack is empty\n");
         return;
     }
 
-    printf("STACK ELEMENTS:\n");
-    node *ptr;
+    STACK ptr;
     for(ptr = top; ptr != NULL; ptr = ptr->next) printf("|  %d  |\n", ptr->data);
     printf("\n");
 }
 
 int main() {
-    node *stackNode = NULL;
-
+    STACK stack = NULL;
+    
     int choice;
 
     do {
@@ -69,21 +68,21 @@ int main() {
         switch(choice) {
             case 1: 
                 int newData;
-                printf("Enter element: ");
+                printf("Enter element to push: ");
                 scanf("%d", &newData);
-                push(&stackNode, newData);
+                push(&stack, newData);
                 break;
             
             case 2:
-                pop(&stackNode);
+                pop(&stack);
                 break;
 
             case 3:
-                top(stackNode);
+                top(stack);
                 break;
 
             case 4:
-                display(stackNode);
+                printStack(stack);
                 break;
             
             case 5:
